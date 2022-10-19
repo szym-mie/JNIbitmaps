@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                         view.setImageBitmap(viewBitmap)
                         view.invalidate()
 
-                        Thread.sleep(30)
+                        Thread.sleep(33)
                     }
                 } catch (e: Exception) {
                     System.err.println(e.message)
