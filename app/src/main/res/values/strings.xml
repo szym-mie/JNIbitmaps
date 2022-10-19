@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">JNIbitmaps</string>
+    <string name="view_description">a viewport bitmap</string>
+</resources>
