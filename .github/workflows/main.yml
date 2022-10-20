@@ -23,7 +23,13 @@ jobs:
         run: echo $KEY_JKS | base64 -di > key.jks
       - name: build
         run: ./gradlew build
-      - name: artifact store
+      - name: create release # disable to save storage
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: app/**/app-release.apk
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit: ${{ github.sha }}
+      - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: apk
