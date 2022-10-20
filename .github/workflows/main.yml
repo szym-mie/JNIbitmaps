@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: build/release/app-release-signed.apk
+          path: app/**/app-release.apk
