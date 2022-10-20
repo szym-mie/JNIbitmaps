@@ -3,8 +3,25 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      KEY_JKS: ${{ secrets.KEY_JKS }}
+      KEY_PATH: ${{ github.workspace }}/key.jks
+      ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
     steps:
       - name: checkout current src
         uses: actions/checkout@v2
+      - name: setup java env
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11 # using java 11
+          distribution: adopt # using openjdk adopt
+      - name: extract key store file from secret
+        run: echo $KEY_JKS | base64 -di > key.jks
       - name: build
         run: ./gradlew build
+#       - name: artifact store
+#         uses: actions/upload-artifact@v3 / actions/download-artifact@v3
+#         with:
+#           name: apk
+#           path: build/release/app-release-signed.apk
