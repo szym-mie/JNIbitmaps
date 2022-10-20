@@ -12,9 +12,10 @@ jobs:
       - name: checkout current src
         uses: actions/checkout@v2
       - name: setup java env
-        uses: actions/setup-java@2
+        uses: actions/setup-java@v3
         with:
-          java-version: 8 # use java 1.8
+          java-version: 8 # using java 1.8
+          distribution: adopt # using OpenJDK Adopt
       - name: extract key store file from secret
         run: echo $KEY_JKS | base64 -di > key.jks
       - name: build
