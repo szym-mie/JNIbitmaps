@@ -14,8 +14,8 @@ jobs:
       - name: setup java env
         uses: actions/setup-java@v3
         with:
-          java-version: 8 # using java 1.8
-          distribution: adopt # using OpenJDK Adopt
+          java-version: 11 # using java 11
+          distribution: adopt # using openjdk adopt
       - name: extract key store file from secret
         run: echo $KEY_JKS | base64 -di > key.jks
       - name: build
