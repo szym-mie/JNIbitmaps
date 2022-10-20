@@ -6,10 +6,10 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file(KEY_PATH)
-            storePassword KEY_PASSWORD
-            keyAlias ALIAS_PASSWORD
-            keyPassword KEY_PASSWORD
+            storeFile System.getenv("KEY_PATH") ? file(System.getenv("KEY_PATH")) : null
+            storePassword System.getenv("KEY_PASSWORD")
+            keyAlias System.getenv("ALIAS_PASSWORD")
+            keyPassword System.getenv("KEY_PASSWORD")
         }
     }
     namespace 'com.szymm.jnibitmaps'
