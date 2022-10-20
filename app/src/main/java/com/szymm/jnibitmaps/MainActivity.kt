@@ -1,52 +1,71 @@
 package com.szymm.jnibitmaps
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.HandlerCompat
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var view: ImageView
+    private lateinit var viewBitmap: Bitmap
+
     private lateinit var bitmapManager: BitmapManager
 
     private lateinit var renderThread: Thread
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val view = findViewById<ImageView>(R.id.imageView)
-        val viewBitmap = Bitmap.createBitmap(320, 200, Bitmap.Config.ARGB_8888)
+        view = findViewById(R.id.imageView)
+        viewBitmap = Bitmap.createBitmap(320, 200, Bitmap.Config.ARGB_8888)
 
         bitmapManager = BitmapManager(this, 16, Bitmap.Config.ARGB_8888)
 
         bitmapManager.loadResource(R.drawable.htile0)
         bitmapManager.loadResource(R.drawable.sky0)
 
-        if (!this::renderThread.isInitialized || !renderThread.isAlive) {
+        if (!this::renderThread.isInitialized || renderThread.isInterrupted) {
             renderThread = Thread {
-                try {
-                    initViewBitmap(viewBitmap)
-                    initTexBitmaps(bitmapManager)
-                    while (!renderThread.isInterrupted) {
-                        render(viewBitmap)
+                initViewBitmap(viewBitmap)
+                initTexBitmaps(bitmapManager)
+                while (!renderThread.isInterrupted) {
+                    render(viewBitmap)
 
-                        view.setImageBitmap(viewBitmap)
-                        view.invalidate()
+                    view.setImageBitmap(viewBitmap)
+                    view.invalidate()
 
-                        Thread.sleep(33)
-                    }
-                } catch (e: Exception) {
-                    System.err.println(e.message)
-                    return@Thread
+                    Thread.sleep(33)
                 }
             }
+            renderThread.setUncaughtExceptionHandler { thread, eh ->
+                val threadMessage = "Exception on ${thread.name}:\n ${eh.message}"
+                System.err.println(threadMessage)
+                Toast.makeText(this, threadMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!renderThread.isAlive) {
+            Thread.sleep(3000L)
             renderThread.start()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
 
         try {
             renderThread.interrupt()

@@ -8,8 +8,15 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+
+# do not add key stores
+**.jks
+
+# exclude build folders
+/app/build
+/app/release
+/build
