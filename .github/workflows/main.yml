@@ -11,7 +11,6 @@ jobs:
       KEY_PATH: ${{ github.workspace }}/key.jks
       ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      BUILD_SIG: $GITHUB_RUN_NUMBER
     steps:
       - name: checkout current src
         uses: actions/checkout@v3
@@ -24,14 +23,14 @@ jobs:
         run: echo $KEY_JKS | base64 -di > key.jks
       - name: build
         run: ./gradlew build
-      - name: this release name
-        run: echo $GITHUB_RUN_NUMBER
+      - name: get release name
+        run: echo "build_sig=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
       - name: create release # disable to save storage
         uses: ncipollo/release-action@v1
         with:
           artifacts: app/**/app-release.apk
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ format('build/{0}', env.BUILD_SIG) }}
+          tag: ${{ format('build/{0}', env.build_sig) }}
           commit: ${{ github.sha }}
       - name: upload artifact
         uses: actions/upload-artifact@v3
