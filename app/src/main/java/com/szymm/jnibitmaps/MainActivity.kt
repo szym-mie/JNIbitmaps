@@ -51,15 +51,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-    }
-
     override fun onResume() {
         super.onResume()
 
         if (!renderThread.isAlive) {
-            Thread.sleep(3000L)
+            Thread.sleep(5000L)
             renderThread.start()
         }
     }
