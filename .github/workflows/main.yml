@@ -30,7 +30,7 @@ jobs:
         with:
           artifacts: app/**/app-release.apk
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ format('builds/{0}', env.GITHUB_RUN_NUMBER) }}
+          tag: buiild/$GITHUB_RUN_NUMBER
           commit: ${{ github.sha }}
       - name: upload artifact
         uses: actions/upload-artifact@v3
