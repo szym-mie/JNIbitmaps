@@ -24,7 +24,7 @@ jobs:
       - name: build
         run: ./gradlew build
       - name: this release name
-        run: echo ${{ format('builds/{0}', env.GITHUB_RUN_NUMBER) }}
+        run: echo $GITHUB_RUN_NUMBER
       - name: create release # disable to save storage
         uses: ncipollo/release-action@v1
         with:
