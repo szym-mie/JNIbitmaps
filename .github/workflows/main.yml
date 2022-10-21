@@ -23,6 +23,8 @@ jobs:
         run: echo $KEY_JKS | base64 -di > key.jks
       - name: build
         run: ./gradlew build
+      - name: this release name
+        run: echo ${{ format('builds/{0}', env.GITHUB_RUN_NUMBER) }}
       - name: create release # disable to save storage
         uses: ncipollo/release-action@v1
         with:
