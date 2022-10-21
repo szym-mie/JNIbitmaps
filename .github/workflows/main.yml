@@ -11,6 +11,7 @@ jobs:
       KEY_PATH: ${{ github.workspace }}/key.jks
       ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      BUILD_SIG: $GITHUB_RUN_NUMBER
     steps:
       - name: checkout current src
         uses: actions/checkout@v3
@@ -30,7 +31,7 @@ jobs:
         with:
           artifacts: app/**/app-release.apk
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: buiild/$GITHUB_RUN_NUMBER
+          tag: ${{ format('build/{0}', env.BUILD_SIG) }}
           commit: ${{ github.sha }}
       - name: upload artifact
         uses: actions/upload-artifact@v3
