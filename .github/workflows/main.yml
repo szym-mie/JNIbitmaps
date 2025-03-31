@@ -33,7 +33,7 @@ jobs:
           tag: ${{ format('build/{0}', env.build_sig) }}
           commit: ${{ github.sha }}
       - name: upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: apk
           path: app/**/app-release.apk

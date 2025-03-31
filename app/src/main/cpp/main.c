@@ -37,7 +37,7 @@ Java_com_szymm_jnibitmaps_MainActivity_initTexBitmaps(
     jobject this,
     jobject bitmap_manager)
 {
-     uint32_t bitmap_count = bitmap_manager_get_bitmap_count(env, bitmap_manager);
+    uint32_t bitmap_count = bitmap_manager_get_bitmap_count(env, bitmap_manager);
 
     texs = calloc(bitmap_count, sizeof(Bitmap *));
     if (texs == NULL) bitmap_throw_exception(env, "could not allocate texture library");
